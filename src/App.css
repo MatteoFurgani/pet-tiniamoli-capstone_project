@@ -2,3 +2,22 @@ body {
   background-color: #9dc183 !important;
   height: 100vh;
 }
+
+.custom-modal .modal-content {
+  background-color: #f0f0f0; /* Cambia il colore di sfondo */
+  color: #333; /* Cambia il colore del testo */
+}
+
+.custom-modal .modal-header {
+  background-color: #9dc183; /* Cambia il colore di sfondo dell'intestazione */
+  /* Cambia il colore del testo dell'intestazione */
+}
+
+.custom-modal .modal-body {
+  /* Nessun cambiamento necessario */
+}
+
+.custom-modal .modal-footer {
+  background-color: #9dc183; /* Cambia il colore di sfondo del piè di pagina */
+  color: #9dc183 !important; /* Cambia il colore del testo del piè di pagina */
+}

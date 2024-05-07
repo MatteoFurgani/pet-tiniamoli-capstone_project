@@ -7,18 +7,24 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-// import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [showModalAccess, setShowModalAccess] = useState(false);
   const [showModalRegister, setShowModalRegister] = useState(false);
+  const [showModalRegistrationCompleted, setShowModalRegistrationCompleted] =
+    useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleOpenModalAccess = () => setShowModalAccess(true);
   const handleCloseModalAccess = () => setShowModalAccess(false);
   const handleOpenModalRegister = () => setShowModalRegister(true);
   const handleCloseModalRegister = () => setShowModalRegister(false);
+
+  /////////////////////////////////////////////////LOGIN//////////////////////////////////////////////////////
 
   const handleLogin = () => {
     fetch("http://localhost:3001/auth/login", {
@@ -43,6 +49,44 @@ const NavBar = () => {
       .catch((error) => {
         console.log("Errore di rete", error);
       });
+  };
+
+  ////////////////////////////////////REGISTRAZONE////////////////////////////////
+
+  const handleRegister = () => {
+    fetch("http://localhost:3001/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ firstName, lastName, phone, email, password }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          setShowModalRegistrationCompleted(true);
+          return response.json();
+        } else {
+          alert("Errore nella registrazione");
+        }
+      })
+      .then((data) => {
+        handleCloseModalRegister();
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("Errore di rete", error);
+      });
+  };
+
+  const handleCloseRegistrationCompletedModal = () => {
+    handleCloseModalRegister();
+    setShowModalRegistrationCompleted(false);
+
+    setFirstName("");
+    setLastName("");
+    setPhone("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -104,7 +148,7 @@ const NavBar = () => {
         </Container>
       </Navbar>
 
-      {/* Modale ACCEDI */}
+      {/*//////////////////////////////////////////// Modale ACCEDI/////////////////////////////////////// */}
 
       <Modal show={showModalAccess} onHide={handleCloseModalAccess}>
         <Modal.Header closeButton>
@@ -133,18 +177,16 @@ const NavBar = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          {/* <Link to="/pagina-profilo"> */}
           <Button variant="success" onClick={handleLogin}>
             Accedi
           </Button>
-          {/* </Link> */}
           <Button variant="danger" onClick={handleCloseModalAccess}>
             Chiudi
           </Button>
         </Modal.Footer>
       </Modal>
 
-      {/* Modale REGISTRATI */}
+      {/* /////////////////////////////////////////////////Modale REGISTRATI/////////////////////////////////// */}
 
       <Modal show={showModalRegister} onHide={handleCloseModalRegister}>
         <Modal.Header closeButton>
@@ -152,34 +194,78 @@ const NavBar = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="firstName">
               <Form.Label>Nome *</Form.Label>
-              <Form.Control type="text" placeholder="Nome" />
+              <Form.Control
+                type="text"
+                placeholder="Nome"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="lastName">
               <Form.Label>Cognome *</Form.Label>
-              <Form.Control type="text" placeholder="Cognome" />
+              <Form.Control
+                type="text"
+                placeholder="Cognome"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="phone">
               <Form.Label>Cellulare *</Form.Label>
-              <Form.Control type="text" placeholder="1234567" />
+              <Form.Control
+                type="text"
+                placeholder="1234567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Email address *</Form.Label>
-              <Form.Control type="email" placeholder="name@example.com" />
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email *</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="password">
               <Form.Label>Password *</Form.Label>
-              <Form.Control type="password" placeholder="fido1234" />
+              <Form.Control
+                type="password"
+                placeholder="fido1234"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </Form.Group>
             <Form.Text className="text-muted">* Campi obbligatori</Form.Text>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleCloseModalRegister}>
+          <Button variant="success" onClick={handleRegister}>
             Registrati
           </Button>
           <Button variant="danger" onClick={handleCloseModalRegister}>
+            Chiudi
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showModalRegistrationCompleted}
+        onHide={handleCloseRegistrationCompletedModal}
+        dialogClassName="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Registrazione completata</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>La tua registrazione è avvenuta con successo.</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="info"
+            onClick={handleCloseRegistrationCompletedModal}
+          >
             Chiudi
           </Button>
         </Modal.Footer>
