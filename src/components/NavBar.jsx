@@ -6,32 +6,61 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [showModalAccess, setShowModalAccess] = useState(false);
   const [showModalRegister, setShowModalRegister] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleOpenModalAccess = () => setShowModalAccess(true);
   const handleCloseModalAccess = () => setShowModalAccess(false);
   const handleOpenModalRegister = () => setShowModalRegister(true);
   const handleCloseModalRegister = () => setShowModalRegister(false);
 
+  const handleLogin = () => {
+    fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          handleCloseModalAccess();
+          return response.json();
+        } else {
+          alert("Errore nel login");
+        }
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.accessToken);
+        window.location.href = "/pagina-profilo";
+      })
+      .catch((error) => {
+        console.log("Errore di rete", error);
+      });
+  };
+
   return (
     <>
       <Navbar expand="lg">
         <Container fluid>
-          <Navbar.Brand href="#home">
+          <Link to="/" className="navbar-brand">
             <img src="../../public/logo-toeletta.png" alt="logo" width="100" />
-          </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
             id="basic-navbar-nav"
             className="justify-content-between"
           >
             <Nav>
-              <Nav.Link href="#home">
+              <Link to="/" className="nav-link">
                 <h3>PET-tiniamoli</h3>
-              </Nav.Link>
+              </Link>
 
               <Nav.Link href="#link">
                 <img
@@ -74,6 +103,9 @@ const NavBar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      {/* Modale ACCEDI */}
+
       <Modal show={showModalAccess} onHide={handleCloseModalAccess}>
         <Modal.Header closeButton>
           <Modal.Title>Accedi</Modal.Title>
@@ -81,24 +113,39 @@ const NavBar = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="name@example.com" />
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Inserisci email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="fido1234" />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleCloseModalAccess}>
+          {/* <Link to="/pagina-profilo"> */}
+          <Button variant="success" onClick={handleLogin}>
             Accedi
           </Button>
+          {/* </Link> */}
           <Button variant="danger" onClick={handleCloseModalAccess}>
             Chiudi
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Modale REGISTRATI */}
+
       <Modal show={showModalRegister} onHide={handleCloseModalRegister}>
         <Modal.Header closeButton>
           <Modal.Title>Registrati</Modal.Title>
