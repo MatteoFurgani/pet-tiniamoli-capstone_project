@@ -91,10 +91,10 @@ const NavBar = () => {
 
   return (
     <>
-      <Navbar expand="lg">
+      <Navbar expand="lg" className="navbar-custom">
         <Container fluid>
           <Link to="/" className="navbar-brand">
-            <img src="../../public/logo-toeletta.png" alt="logo" width="100" />
+            <img src="../../public/logo-toeletta.png" alt="logo" width="50" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
@@ -106,31 +106,23 @@ const NavBar = () => {
                 <h3>PET-tiniamoli</h3>
               </Link>
 
-              <Nav.Link href="#link">
+              <Link to="/prenotazioni" className="nav-link">
                 <img
                   src="../../public/logo-prenotazioni.png"
                   alt="prenotazioni"
                   width="30"
                 />
                 Prenotazioni
-              </Nav.Link>
+              </Link>
 
-              <Nav.Link href="#link">
+              <Link to="/servizi" className="nav-link">
                 <img
                   src="../../public/logo-servizi.png"
                   alt="servizi"
                   width="30"
                 />
                 Servizi
-              </Nav.Link>
-              <Nav.Link href="#link">
-                <img
-                  src="../../public/logo-chisiamo.png"
-                  alt="chi siamo"
-                  width="30"
-                />
-                Chi siamo...
-              </Nav.Link>
+              </Link>
             </Nav>
             <NavDropdown
               title="Accedi/Registrati"

@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PaginaProfilo from "./components/PaginaProfilo";
 import Home from "./components/Home";
+import Servizi from "./components/Servizi";
+import Prenotazioni from "./components/Prenotazioni";
 
 function App() {
   return (
@@ -16,8 +18,10 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/pagina-profilo" element={<PaginaProfilo />} />
             <Route path="/" element={<Home />} />
+            <Route path="/prenotazioni" element={<Prenotazioni />} />
+            <Route path="/servizi" element={<Servizi />} />
+            <Route path="/pagina-profilo" element={<PaginaProfilo />} />
           </Routes>
         </main>
         <footer>

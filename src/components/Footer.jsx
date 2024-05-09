@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
 
 const Footer = () => {
   const [annoCorrente, setAnnoCorrente] = useState("");
@@ -10,11 +11,15 @@ const Footer = () => {
   }, []);
   return (
     <>
-      <div className="container">
-        <div className="row justify-content-center text-center">
-          <span className="text-muted">© {annoCorrente} PET-tiniamoli</span>
-        </div>
-      </div>
+      <Container fluid>
+        <Row className="footer-cont justify-content-center text-center py-4">
+          <div className="">
+            <span className="text-muted mb-2">
+              © {annoCorrente} PET-tiniamoli
+            </span>
+          </div>
+        </Row>
+      </Container>
     </>
   );
 };
