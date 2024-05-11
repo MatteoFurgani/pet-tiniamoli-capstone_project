@@ -13,20 +13,22 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <header>
-          <NavBar />
-        </header>
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/prenotazioni" element={<Prenotazioni />} />
-            <Route path="/servizi" element={<Servizi />} />
-            <Route path="/pagina-profilo" element={<PaginaProfilo />} />
-          </Routes>
-        </main>
-        <footer>
-          <Footer />
-        </footer>
+        <div className="d-flex flex-column min-vh-100">
+          <header>
+            <NavBar />
+          </header>
+          <main className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/prenotazioni" element={<Prenotazioni />} />
+              <Route path="/servizi" element={<Servizi />} />
+              <Route path="/pagina-profilo" element={<PaginaProfilo />} />
+            </Routes>
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </div>
       </BrowserRouter>
     </>
   );

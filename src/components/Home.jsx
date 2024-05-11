@@ -13,9 +13,10 @@ const Home = () => {
             <Carousel className="custom-carousel m-0">
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
+                  className="carosel-img d-block w-100"
                   src="../../public/cane1.jpg"
                   alt="First slide"
+                  style={{ height: "400px" }}
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -23,6 +24,7 @@ const Home = () => {
                   className="d-block w-100"
                   src="../../public/cane3.webp"
                   alt="Second slide"
+                  style={{ height: "400px" }}
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -30,6 +32,7 @@ const Home = () => {
                   className="d-block w-100"
                   src="../../public/cane2.webp"
                   alt="Third slide"
+                  style={{ height: "400px" }}
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -37,6 +40,7 @@ const Home = () => {
                   className="d-block w-100"
                   src="../../public/cane4.png"
                   alt="Fourth slide"
+                  style={{ height: "400px" }}
                 />
               </Carousel.Item>
             </Carousel>
@@ -60,7 +64,7 @@ const Home = () => {
                   essere trattato con amore e cura. Siamo qui per far brillare
                   il tuo fedele amico e farlo sentire al suo meglio, perché
                   quando si tratta di amore per i cani, siamo i migliori
-                  nell'arte della PET-tiniamoli.
+                  nell&apos;arte della PET-tiniamoli.
                 </Card.Text>
               </Card.Body>
             </Card>

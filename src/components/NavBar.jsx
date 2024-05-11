@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const NavBar = () => {
   const [showModalRegister, setShowModalRegister] = useState(false);
   const [showModalRegistrationCompleted, setShowModalRegistrationCompleted] =
     useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -26,7 +27,8 @@ const NavBar = () => {
 
   /////////////////////////////////////////////////LOGIN//////////////////////////////////////////////////////
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault();
     fetch("http://localhost:3001/auth/login", {
       method: "POST",
       headers: {
@@ -44,12 +46,19 @@ const NavBar = () => {
       })
       .then((data) => {
         localStorage.setItem("token", data.accessToken);
-        window.location.href = "/pagina-profilo";
+        setIsLoggedIn(true);
       })
       .catch((error) => {
         console.log("Errore di rete", error);
       });
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   ////////////////////////////////////REGISTRAZONE////////////////////////////////
 
@@ -89,6 +98,12 @@ const NavBar = () => {
     setPassword("");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Rimuovi il token dal localStorage
+    setIsLoggedIn(false); // Imposta il flag di accesso a falso
+    window.location.href = "/"; // Reindirizza alla homepage dopo il logout
+  };
+
   return (
     <>
       <Navbar expand="lg" className="navbar-custom">
@@ -125,16 +140,22 @@ const NavBar = () => {
               </Link>
             </Nav>
             <NavDropdown
-              title="Accedi/Registrati"
+              title={isLoggedIn ? "Pagina Profilo" : "Accedi/Registrati"} // Cambia il titolo in base allo stato di accesso
               id="basic-nav-dropdown"
               className="me-5 pb-3"
             >
-              <NavDropdown.Item onClick={handleOpenModalAccess}>
-                Accedi
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={handleOpenModalRegister}>
-                Registrati
-              </NavDropdown.Item>
+              {isLoggedIn ? ( // Mostra il menu del profilo se l'utente è loggato
+                <NavDropdown.Item onClick={handleLogout}>Esci</NavDropdown.Item>
+              ) : (
+                <>
+                  <NavDropdown.Item onClick={handleOpenModalAccess}>
+                    Accedi
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleOpenModalRegister}>
+                    Registrati
+                  </NavDropdown.Item>
+                </>
+              )}
             </NavDropdown>
           </Navbar.Collapse>
         </Container>
@@ -169,7 +190,7 @@ const NavBar = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleLogin}>
+          <Button variant="success" onClick={(e) => handleLogin(e)}>
             Accedi
           </Button>
           <Button variant="danger" onClick={handleCloseModalAccess}>
