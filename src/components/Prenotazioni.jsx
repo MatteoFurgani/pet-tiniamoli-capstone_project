@@ -36,21 +36,18 @@ const Prenotazioni = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [finalCost, setFinalCost] = useState("");
-  // const [reservationData, setReservationData] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleDateChange = (date) => {
     setCalendarDate(date);
 
-    // Estrai l'ora e i minuti dalla nuova data selezionata
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
-    // Formatta l'ora nel formato HH:mm
     const formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
       minutes < 10 ? "0" : ""
     }${minutes}`;
 
-    // Imposta l'ora nel relativo stato
     setCalendarTime(formattedTime);
   };
 
@@ -58,7 +55,7 @@ const Prenotazioni = () => {
     setCalendarTime(e.target.value);
   };
 
-  // Funzione per recuperare le informazioni dell'animale tramite la chiamata API
+  //fetch per il recupero di petinfo tramite ID
   const fetchPetInfo = async (petId) => {
     try {
       const token = localStorage.getItem("token");
@@ -66,7 +63,7 @@ const Prenotazioni = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Assicurati di includere il token nell'header
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!response.ok) {
@@ -75,7 +72,7 @@ const Prenotazioni = () => {
         );
       }
       const petData = await response.json();
-      setPetInfo(petData); // Memorizza le informazioni dell'animale nello stato
+      setPetInfo(petData);
     } catch (error) {
       console.error("Errore:", error);
     }
@@ -87,7 +84,6 @@ const Prenotazioni = () => {
     event.preventDefault();
 
     try {
-      // Recupera il token dal localStorage
       const token = localStorage.getItem("token");
 
       let petData = {
@@ -124,7 +120,7 @@ const Prenotazioni = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Includi il token nell'header Authorization
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(petData),
       });
@@ -135,24 +131,23 @@ const Prenotazioni = () => {
         );
       }
 
-      // Estrai l'ID dell'animale appena creato dalla risposta
       const petInfoId = (await petRequest.json()).id;
       await fetchPetInfo(petInfoId);
 
       const requestBody = {
-        date: calendarDate.toISOString().split("T")[0], // Converti la data in formato ISO e rimuovi l'orario
+        date: calendarDate.toISOString().split("T")[0],
         time: calendarTime,
         serviceType: service,
         petInfoId: petInfoId,
       };
-
+      //fetch per mostrare la prenotazione
       const response = await fetch(
         "http://localhost:3001/reservations/me/show",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Includi il token nell'header Authorization
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(requestBody),
         }
@@ -177,6 +172,57 @@ const Prenotazioni = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const requestBody = {
+        date: calendarDate.toISOString().split("T")[0],
+        time: calendarTime,
+        serviceType: service,
+        petInfoId: petinfoId,
+        cost: finalCost,
+      };
+      //fetch per salvare la prenotazione
+      const response = await fetch(
+        "http://localhost:3001/reservations/me/save",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Errore durante il salvataggio della prenotazione");
+      }
+
+      setShowModal(false);
+      setShowSuccessModal(true);
+
+      setService("");
+      setDogSize("");
+      setCoatType("");
+      setCalendarDate(new Date());
+      setCalendarTime("");
+      setServiceType("");
+      setPetInfo("");
+      setPetinfoId("");
+      setDate("");
+      setTime("");
+      setFinalCost("");
+    } catch (error) {
+      console.error("Errore durante il salvataggio della prenotazione:", error);
+    }
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
   };
 
   const minTime = new Date();
@@ -325,8 +371,28 @@ const Prenotazioni = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Chiudi
           </Button>
-          <Button variant="success">Conferma</Button>
-          {/* Aggiungi qui eventuali altri pulsanti per modificare o confermare la prenotazione */}
+          <Button variant="success" onClick={handleConfirm}>
+            Conferma
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modale di conferma della prenotazione */}
+      <Modal
+        show={showSuccessModal}
+        onHide={handleCloseSuccessModal}
+        dialogClassName="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Prenotazione salvata</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          La tua prenotazione è stata salvata con successo!
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseSuccessModal}>
+            Chiudi
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

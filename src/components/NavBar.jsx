@@ -99,9 +99,9 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Rimuovi il token dal localStorage
-    setIsLoggedIn(false); // Imposta il flag di accesso a falso
-    window.location.href = "/"; // Reindirizza alla homepage dopo il logout
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    window.location.href = "/";
   };
 
   return (
@@ -140,12 +140,19 @@ const NavBar = () => {
               </Link>
             </Nav>
             <NavDropdown
-              title={isLoggedIn ? "Pagina Profilo" : "Accedi/Registrati"} // Cambia il titolo in base allo stato di accesso
+              title={isLoggedIn ? "Pagina Profilo" : "Accedi/Registrati"}
               id="basic-nav-dropdown"
               className="me-5 pb-3"
             >
-              {isLoggedIn ? ( // Mostra il menu del profilo se l'utente è loggato
-                <NavDropdown.Item onClick={handleLogout}>Esci</NavDropdown.Item>
+              {isLoggedIn ? (
+                <>
+                  <Link to="/pagina-profilo" className="nav-link ps-3">
+                    Profilo
+                  </Link>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Esci
+                  </NavDropdown.Item>
+                </>
               ) : (
                 <>
                   <NavDropdown.Item onClick={handleOpenModalAccess}>
