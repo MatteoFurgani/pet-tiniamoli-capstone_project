@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 const services = [
   "Lavaggio",
   "Tosatura",
-  "Taglio + Lavaggio",
+  "Tosatura + Lavaggio",
   "Taglio Unghie",
   "Stripping",
 ];
@@ -167,7 +167,7 @@ const Prenotazioni = () => {
       setPetinfoId(data.petInfo.id);
       setDate(data.date);
       setTime(data.time);
-      setFinalCost(data.finalCost);
+      setFinalCost(data.cost);
       console.log("Prenotazione:", data);
       setShowModal(true);
     } catch (error) {
@@ -189,7 +189,7 @@ const Prenotazioni = () => {
       <Container>
         <Row className="justify-content-center align-items-center ">
           <Col xs={12} md={8} lg={6} xl={6} className="my-5">
-            <h1 className="text-center my-5">PRENOTATI QUi</h1>
+            <h1 className="text-center">PRENOTATI QUI</h1>
             <Form className="form-custom p-4">
               <Form.Group className="mb-3" controlId="serviceSelect">
                 <Form.Label className="color-form fw-bold">Servizio</Form.Label>
@@ -281,14 +281,19 @@ const Prenotazioni = () => {
       </Container>
 
       {/* Modale con riepilogo della prenotazione e costo totale */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName="custom-modal"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Riepilogo della prenotazione</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <p>Servizio: {service}</p>
+        <Modal.Body className="text-center">
+          <h5>Servizio:</h5>
+          <p>{service}</p>
+          <h5>Taglia cane:</h5>
           <p>
-            Taglia:{" "}
             {petInfo.size === "S"
               ? "Piccola (1-10kg)"
               : petInfo.size === "M"
@@ -299,8 +304,8 @@ const Prenotazioni = () => {
               ? "Extra Large (31>kg)"
               : petInfo.size}
           </p>
+          <h5>Tipo di pelo:</h5>
           <p>
-            Tipo di pelo:{" "}
             {petInfo.hairType === "LONG"
               ? "Lungo"
               : petInfo.hairType === "SHORT"
@@ -309,9 +314,12 @@ const Prenotazioni = () => {
               ? "Medio"
               : petInfo.hairType}
           </p>
-          <p>Data: {date}</p>
-          <p>Ora: {time}</p>
-          <p>Costo totale: {finalCost}</p>
+          <h5>Data:</h5>
+          <p>{date}</p>
+          <h5>Ora:</h5>
+          <p>{time}</p>
+          <h5>Costo totale:</h5>
+          <p>{finalCost} €</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
