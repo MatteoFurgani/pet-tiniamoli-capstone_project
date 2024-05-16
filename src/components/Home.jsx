@@ -16,7 +16,7 @@ const Home = () => {
                   className="carosel-img d-block w-100"
                   src="../../public/cane1.jpg"
                   alt="First slide"
-                  style={{ height: "400px" }}
+                  style={{ aspectRatio: "4/3" }}
                 />
               </Carousel.Item>
               <Carousel.Item>

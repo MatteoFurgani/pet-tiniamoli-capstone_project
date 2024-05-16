@@ -58,3 +58,8 @@ body {
   border: 2px solid #9dc183 !important;
   background-color: rgba(157, 193, 131, 0.5) !important;
 }
+
+.list-item {
+  text-align: left !important;
+  border: none !important;
+}
