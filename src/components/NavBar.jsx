@@ -58,6 +58,21 @@ const NavBar = () => {
     if (token) {
       setIsLoggedIn(true);
     }
+
+    const handleScroll = () => {
+      const navbar = document.getElementById("main-navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   ////////////////////////////////////REGISTRAZONE////////////////////////////////
@@ -106,7 +121,7 @@ const NavBar = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-custom">
+      <Navbar expand="lg" className="navbar-custom" id="main-navbar">
         <Container fluid>
           <Link to="/" className="navbar-brand">
             <img src="../../public/logo-toeletta.png" alt="logo" width="50" />
@@ -120,16 +135,6 @@ const NavBar = () => {
               <Link to="/" className="nav-link">
                 <h3>PET-tiniamoli</h3>
               </Link>
-
-              <Link to="/prenotazioni" className="nav-link">
-                <img
-                  src="../../public/logo-prenotazioni.png"
-                  alt="prenotazioni"
-                  width="30"
-                />
-                Prenotazioni
-              </Link>
-
               <Link to="/servizi" className="nav-link">
                 <img
                   src="../../public/logo-servizi.png"
@@ -137,6 +142,14 @@ const NavBar = () => {
                   width="30"
                 />
                 Servizi
+              </Link>
+              <Link to="/prenotazioni" className="nav-link">
+                <img
+                  src="../../public/logo-prenotazioni.png"
+                  alt="prenotazioni"
+                  width="30"
+                />
+                Prenotazioni
               </Link>
             </Nav>
             <NavDropdown

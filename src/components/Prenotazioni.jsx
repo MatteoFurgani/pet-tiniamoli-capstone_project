@@ -21,6 +21,7 @@ const dogSizes = [
   "L - (21-30kg)",
   "XL - (31>kg) ",
 ];
+
 const coatTypes = ["Corto", "Medio", "Lungo"];
 
 const Prenotazioni = () => {
@@ -37,6 +38,7 @@ const Prenotazioni = () => {
   const [time, setTime] = useState("");
   const [finalCost, setFinalCost] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleDateChange = (date) => {
     setCalendarDate(date);
@@ -82,6 +84,14 @@ const Prenotazioni = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Controlla se tutti i campi obbligatori sono compilati
+    if (!service || !dogSize || !coatType || !calendarDate || !calendarTime) {
+      setErrorMessage("Tutti i campi sono obbligatori");
+      return;
+    } else {
+      setErrorMessage("");
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -236,7 +246,10 @@ const Prenotazioni = () => {
         <Row className="justify-content-center align-items-center ">
           <Col xs={12} md={8} lg={6} xl={6} className="my-5">
             <h1 className="text-center">PRENOTATI QUI</h1>
-            <Form className="form-custom p-4">
+            <Form className="form-custom p-4" onSubmit={handleSubmit}>
+              {errorMessage && (
+                <h4 className="text-danger text-center">{errorMessage}</h4>
+              )}
               <Form.Group className="mb-3" controlId="serviceSelect">
                 <Form.Label className="color-form fw-bold">Servizio</Form.Label>
                 <Form.Select
@@ -384,7 +397,7 @@ const Prenotazioni = () => {
         dialogClassName="custom-modal"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Prenotazione salvata</Modal.Title>
+          <Modal.Title>Prenotazione salvata con successo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           La tua prenotazione è stata salvata con successo!

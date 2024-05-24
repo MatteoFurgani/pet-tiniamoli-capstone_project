@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Footer = () => {
   const [annoCorrente, setAnnoCorrente] = useState("");
@@ -12,12 +12,42 @@ const Footer = () => {
   return (
     <>
       <Container fluid>
-        <Row className="footer-cont justify-content-center text-center py-4">
-          <div className="">
-            <span className="text-muted mb-2">
-              © {annoCorrente} PET-tiniamoli
-            </span>
-          </div>
+        <Row className="footer-cont justify-content-center text-center pt-3 mt-3">
+          <Col xs={12} md={6}>
+            <Row>
+              <Col className="">
+                <i className="bi bi-facebook footer-icon me-2"></i>
+                <i className="bi bi-instagram footer-icon me-2 px-2"></i>
+                <i className="bi bi-twitter-x footer-icon me-2 px-2"></i>
+                <i className="bi bi-youtube footer-icon"></i>
+              </Col>
+            </Row>
+            <Row xs={1} sm={2}>
+              <Col>
+                <Row>
+                  <Col>
+                    <p>Contattaci</p>
+                    <p>Lavora con noi</p>
+                    <p>Cookies</p>
+                  </Col>
+                </Row>
+              </Col>
+              <Col>
+                <Row>
+                  <Col>
+                    <p>Gift Cards</p>
+                    <p>Termini d&apos;uso</p>
+                    <p>Informationi</p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="mb-2 mt-2 copyright">
+                © {annoCorrente} PET-tiniamoli
+              </Col>
+            </Row>
+          </Col>
         </Row>
       </Container>
     </>

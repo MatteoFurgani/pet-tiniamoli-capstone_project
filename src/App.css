@@ -1,12 +1,16 @@
 body {
   background-image: url(../public/foto\ sfondo.webp);
-  /* font-family: "Briem Hand", regular400 !important; */
   height: 100vh;
 }
 
-/* //////////////////////////////NAVBAR/////////////////////////////// */
 .navbar-custom {
   background-color: #9dc183;
+  transition: background-color 0.3s;
+  position: relative !important;
+}
+
+.navbar-custom.scrolled {
+  background-color: rgba(157, 193, 131, 0.5) !important;
 }
 
 .custom-modal .modal-content {
@@ -41,13 +45,18 @@ body {
   background-color: rgba(157, 193, 131, 0.5) !important;
 }
 
+.card-img-item {
+  background-color: #9dc183 !important;
+  height: 220px;
+}
+
 .card-img-container {
-  width: 1800px; /* Imposta la larghezza desiderata per l'immagine */
+  width: 1800px;
 }
 
 .card-img {
   height: 220px;
-  object-fit: cover; /* Imposta l'altezza in modo che l'immagine mantenga le proporzioni */
+  object-fit: cover;
 }
 
 .footer-cont {
@@ -62,4 +71,8 @@ body {
 .list-item {
   text-align: left !important;
   border: none !important;
+}
+
+.list-item:hover {
+  background-color: rgba(157, 193, 131, 0.5) !important;
 }

@@ -13,14 +13,37 @@ const PaginaProfilo = () => {
   const [error, setError] = useState(null);
   const [reservationData, setReservationData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [redirectToProfile, setRedirectToProfile] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState(null);
 
   const handleShowBooking = () => {
     setShowBooking(true);
   };
 
   const handleReservationClick = (reservationData) => {
-    setReservationData([reservationData]);
+    setSelectedReservation([reservationData]);
+  };
+
+  const fetchReservationData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:3001/reservations/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore durante il recupero delle prenotazioni");
+      }
+
+      const reservationData = await response.json();
+      setReservationData(reservationData.content);
+      console.log("Dati prenotazioni:", reservationData);
+    } catch (error) {
+      console.error("Errore:", error);
+    }
   };
 
   useEffect(() => {
@@ -48,30 +71,6 @@ const PaginaProfilo = () => {
       }
     };
 
-    const fetchReservationData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3001/reservations/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Errore durante il recupero delle prenotazioni");
-        }
-
-        const reservationData = await response.json();
-        setReservationData(reservationData.content);
-
-        console.log("Dati prenotazioni:", reservationData);
-      } catch (error) {
-        console.error("Errore:", error);
-      }
-    };
-
     fetchUserProfile();
     fetchReservationData();
   }, []);
@@ -94,11 +93,16 @@ const PaginaProfilo = () => {
         throw new Error("Errore durante la cancellazione della prenotazione");
       }
       setShowModal(true);
-      // Se la cancellazione ha successo, ricarica le prenotazioni o aggiorna lo stato in base alle tue esigenze.
+      setSelectedReservation(null);
+      fetchReservationData();
       console.log("Prenotazione cancellata con successo");
     } catch (error) {
       console.error("Errore:", error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const getHairType = (hairType) => {
@@ -115,7 +119,7 @@ const PaginaProfilo = () => {
   };
 
   if (isLoading) {
-    return <div>Caricamento...</div>;
+    return <div className="text-center">Caricamento...</div>;
   }
 
   if (error) {
@@ -160,10 +164,12 @@ const PaginaProfilo = () => {
                 <Card style={{ height: "100%" }}>
                   <Card.Body>
                     <Card.Title className="py-2">
-                      <h4> Prenotazione</h4>
+                      <h4> Prenotazioni</h4>
                     </Card.Title>
                     <Card.Text>
-                      {reservationData.length === 1 ? (
+                      {reservationData.length === 0 ? (
+                        <div>Prenotazioni assenti</div>
+                      ) : selectedReservation ? (
                         <>
                           <h6>Servizio:</h6>
                           <p>{reservationData[0].serviceType.name}</p>
@@ -180,13 +186,11 @@ const PaginaProfilo = () => {
                           <h6>Costo:</h6>
                           <p>{reservationData[0].cost} €</p>
                           <Button
-                            variant="danger"
+                            variant="success"
                             className="me-3"
-                            onClick={() =>
-                              cancelReservation(reservationData[0].id)
-                            }
+                            onClick={() => setSelectedReservation(null)}
                           >
-                            Cancella prenotazione
+                            Indietro
                           </Button>
                         </>
                       ) : (
@@ -199,11 +203,20 @@ const PaginaProfilo = () => {
                                 onClick={() =>
                                   handleReservationClick(reservationData)
                                 }
-                                className="list-item"
+                                className="list-item d-flex justify-content-between align-items-center pb-3"
                               >
-                                <strong>Servizio:</strong>{" "}
-                                {reservationData.serviceType.name} -{" "}
-                                <strong>Data:</strong> {reservationData.date}
+                                <div>
+                                  <strong>Servizio:</strong>{" "}
+                                  {reservationData.serviceType.name} -{" "}
+                                  <strong>Data:</strong> {reservationData.date}
+                                </div>
+                                <i
+                                  className="bi bi-trash3"
+                                  onClick={() =>
+                                    cancelReservation(reservationData.id)
+                                  }
+                                  style={{ cursor: "pointer", color: "red" }}
+                                ></i>
                               </ListGroup.Item>
                             ))}
                           </ListGroup>
@@ -217,7 +230,11 @@ const PaginaProfilo = () => {
           )}
         </Row>
       </Container>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName="custom-modal"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Prenotazione cancellata</Modal.Title>
         </Modal.Header>
@@ -225,13 +242,7 @@ const PaginaProfilo = () => {
           La prenotazione è stata cancellata con successo.
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setShowModal(false);
-              setRedirectToProfile(true);
-            }}
-          >
+          <Button variant="success" onClick={handleCloseModal}>
             Chiudi
           </Button>
         </Modal.Footer>
