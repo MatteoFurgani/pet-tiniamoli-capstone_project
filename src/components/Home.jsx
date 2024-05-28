@@ -14,7 +14,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="carosel-img d-block w-100"
-                  src="../../public/cane5.jpg"
+                  src="/cane5.jpg"
                   alt="First slide"
                   style={{ aspectRatio: "4/3" }}
                 />
@@ -22,7 +22,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="../../public/cane3.webp"
+                  src="/cane3.webp"
                   alt="Second slide"
                   style={{ height: "400px" }}
                 />
@@ -30,7 +30,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="../../public/cane6.jpg"
+                  src="/cane6.jpg"
                   alt="Third slide"
                   style={{ height: "400px" }}
                 />
@@ -38,7 +38,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="../../public/cane4.png"
+                  src="/cane4.png"
                   alt="Fourth slide"
                   style={{ height: "400px" }}
                 />
@@ -46,7 +46,7 @@ const Home = () => {
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src="../../public/cane7.jpg"
+                  src="/cane7.jpg"
                   alt="Fift slide"
                   style={{ height: "400px" }}
                 />
@@ -59,7 +59,7 @@ const Home = () => {
             <Card className="p-0" style={{ width: "100%" }}>
               <Card.Img
                 variant="top"
-                src="../../public/ET-tiniamoli.png"
+                src="/ET-tiniamoli.png"
                 className="card-img-item"
               />
               <Card.Body>

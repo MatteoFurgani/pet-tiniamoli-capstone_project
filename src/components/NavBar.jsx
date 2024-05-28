@@ -136,16 +136,12 @@ const NavBar = () => {
                 <h3>PET-tiniamoli</h3>
               </Link>
               <Link to="/servizi" className="nav-link">
-                <img
-                  src="../../public/logo-servizi.png"
-                  alt="servizi"
-                  width="30"
-                />
+                <img src="/logo-servizi.png" alt="servizi" width="30" />
                 Servizi
               </Link>
               <Link to="/prenotazioni" className="nav-link">
                 <img
-                  src="../../public/logo-prenotazioni.png"
+                  src="/logo-prenotazioni.png"
                   alt="prenotazioni"
                   width="30"
                 />
