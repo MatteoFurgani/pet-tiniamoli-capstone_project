@@ -22,10 +22,7 @@ const Servizi = () => {
                 </Card.Text>
               </div>
               <div className="card-img-container">
-                <Card.Img
-                  src="../../public/lavaggio.jpg"
-                  className="card-img"
-                />
+                <Card.Img src="/lavaggio.jpg" className="card-img" />
               </div>
             </div>
           </Card>
@@ -45,7 +42,7 @@ const Servizi = () => {
               </div>
               <div className="card-img-container">
                 <Card.Img
-                  src="../../public/tosatura.webp"
+                  src="/tosatura.webp"
                   alt="tosatura"
                   className="card-img"
                 />
@@ -68,7 +65,7 @@ const Servizi = () => {
                 </Card.Text>
               </div>
               <div className="card-img-container">
-                <Card.Img src="../../public/cane1.jpg" className="card-img" />
+                <Card.Img src="/cane1.jpg" className="card-img" />
               </div>
             </div>
           </Card>
@@ -88,7 +85,7 @@ const Servizi = () => {
               </div>
               <div className="card-img-container">
                 <Card.Img
-                  src="../../public/stripping.webp"
+                  src="/stripping.webp"
                   alt="stripping"
                   className="card-img"
                 />
@@ -112,7 +109,7 @@ const Servizi = () => {
               </div>
               <div className="card-img-container">
                 <Card.Img
-                  src="../../public/taglio unghie.jpg"
+                  src="/taglio unghie.jpg"
                   alt="taglio unghie"
                   className="card-img"
                 />
