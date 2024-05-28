@@ -403,7 +403,7 @@ const Prenotazioni = () => {
           La tua prenotazione è stata salvata con successo!
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseSuccessModal}>
+          <Button variant="success" onClick={handleCloseSuccessModal}>
             Chiudi
           </Button>
         </Modal.Footer>
