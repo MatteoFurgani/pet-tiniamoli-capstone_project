@@ -59,20 +59,20 @@ const NavBar = () => {
       setIsLoggedIn(true);
     }
 
-    const handleScroll = () => {
-      const navbar = document.getElementById("main-navbar");
-      if (window.scrollY > 50) {
-        navbar.classList.add("scrolled");
-      } else {
-        navbar.classList.remove("scrolled");
-      }
-    };
+    // const handleScroll = () => {
+    //   const navbar = document.getElementById("main-navbar");
+    //   if (window.scrollY > 50) {
+    //     navbar.classList.add("scrolled");
+    //   } else {
+    //     navbar.classList.remove("scrolled");
+    //   }
+    // };
 
-    window.addEventListener("scroll", handleScroll);
+    // window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
   }, []);
 
   ////////////////////////////////////REGISTRAZONE////////////////////////////////
@@ -124,7 +124,7 @@ const NavBar = () => {
       <Navbar expand="lg" className="navbar-custom" id="main-navbar">
         <Container fluid>
           <Link to="/" className="navbar-brand">
-            <img src="../../public/logo-toeletta.png" alt="logo" width="50" />
+            <img src="/public/logo-toeletta.png" alt="logo" width="50" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
