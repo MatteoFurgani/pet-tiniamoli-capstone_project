@@ -124,7 +124,7 @@ const NavBar = () => {
       <Navbar expand="lg" className="navbar-custom" id="main-navbar">
         <Container fluid>
           <Link to="/" className="navbar-brand">
-            <img src="/public/logo-toeletta.png" alt="logo" width="50" />
+            <img src="/logo-toeletta.png" alt="logo" width="50" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
